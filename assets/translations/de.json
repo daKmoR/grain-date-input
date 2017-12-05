@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "required": "{{fieldName}} muss ausgefüllt werden",
+    "isLength": "Du musst mindestens {{min}} Zeichen eingeben"
+  }
+}

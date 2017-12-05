@@ -1,0 +1,22 @@
+{
+  "name": "grain-date-input",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "grain-input": "github:daKmoR/grain-input",
+    "grain-translate": "github:daKmoR/grain-translate",
+    "validator": "^9.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "polymer serve",
+    "test": "polymer test --skip-selenium-install",
+    "lint": "eslint *.js && polymer lint -i *.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

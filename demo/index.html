@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>grain-input Demo</title>
+  <script type="text/javascript" src="../../validator/validator.min.js"></script>
+
+  <custom-style>
+    <style include="demo-pages-shared-styles"></style>
+  </custom-style>
+</head>
+<body unresolved style="width: 90%; max-width: 980px; margin:0 auto;">
+
+  <h1>Example page of the grain-input</h1>
+
+  <h2>An basic example</h2>
+  <div id="container"></div>
+
+  <script type="module">
+    import { html, render } from '../../lit-html/lib/lit-extended.js';
+    import GrainInput from '../../grain-input/grain-input.js';
+    import GrainDateInput from '../grain-date-input.js';
+
+    GrainDateInput.overrideTranslateDefaults({
+      namespace: 'translations'
+    });
+
+    function isAfter(date, options) {
+      console.log(date);
+      return false;
+    }
+
+    render(html`
+      <grain-input field-name="First Name" errorValidators=${['required', [validator.isLength, {min: 5, max: 10}]]}>
+        <label>First Name</label>
+        <input type="text" name="first-name" />
+        <p>(option, isLength 5-10)</p>
+      </grain-input>
+      <grain-date-input errorValidators=${['required', [isAfter, { date: new Date() }]]}>
+        <label>Age</label>
+        <input type="text" name="last-name" />
+        <p>(required, isInt 18-99)</p>
+      </grain-date-input>
+      <button on-click=${e => document.querySelector('grain-date-input').intlLanguage = 'de'}>de Number Format</button>
+      <button on-click=${e => document.querySelector('grain-date-input').intlLanguage = 'en'}>en Number Format</button>
+      <button on-click="${(e) => { document.querySelectorAll('grain-input, grain-date-input').forEach(el => el.validate()); }}">validate</button>
+
+    `, document.getElementById('container'));
+  </script>
+
+</body>
+</html>
