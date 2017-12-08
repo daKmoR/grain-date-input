@@ -34,10 +34,8 @@ export default class GrainDateInput extends GrainInput {
       this.intlLanguage = this.grainTranslate.language;
     }
     if (this.lightDomRendered) {
-      this.rawValue = this.getRawValue(this.formattedValue);
       this.formatter = new Intl.DateTimeFormat(this.intlLanguage, this.intlOptions);
-      this._guessFormat();
-      this.formattedValue = this.getFormattedValue(this.rawValue);
+      this.calculateValues(this.formattedValue);
     }
   }
 
@@ -58,7 +56,6 @@ export default class GrainDateInput extends GrainInput {
 
     let format = '';
     testDateString.split(this._separator).forEach(part => {
-      console.log(part);
       switch (part) {
         case '22':
           format += 'd';
@@ -72,9 +69,18 @@ export default class GrainDateInput extends GrainInput {
       }
     });
     this._format = format;
+    this._rawPattern = new RegExp(`[0-9\\${this._separator}]`, 'g');
   }
 
-  getRawValue(value) {
+  getRawValue(sourceValue) {
+    let rawValue = sourceValue.match(this._rawPattern);
+    if (rawValue && rawValue.length > 0) {
+      return rawValue.join('');
+    }
+    return sourceValue;
+  }
+
+  getJsValue(value) {
     if (value.split(this._separator).length !== 3) {
       return value;
     }
@@ -99,12 +105,19 @@ export default class GrainDateInput extends GrainInput {
     return date;
   }
 
-  getFormattedValue(value) {
-    if (typeof value === 'object') {
-      let formatted = this.formatter.format(value);
+  getSaveValue(dateObj) {
+    if (typeof dateObj === 'object') {
+      return dateObj.toISOString();
+    }
+    return dateObj;
+  }
+
+  getFormattedValue(dateObj) {
+    if (typeof dateObj === 'object') {
+      let formatted = this.formatter.format(dateObj);
       return formatted;
     }
-    return value;
+    return dateObj;
   }
 
 }
